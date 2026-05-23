@@ -3,390 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATELIER OLOUWABE | Diagnostic Automobile Intelligent | Premium Autel Style</title>
+    <title>AUTEL Dynamic Core | ATELIER OLOUWABE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
         body {
-            font-family: 'Jakarta Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #050505;
+            color: #FFFFFF;
+            overflow-x: hidden;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #D6001C; border-radius: 4px; }
 
-        /* Glassmorphism utility */
-        .glass-panel {
-            background: rgba(23, 23, 23, 0.7);
+        /* Barre de défilement aux couleurs d'Autel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #D6001C; }
+
+        /* Composants Glassmorphism Spécifiques */
+        .autel-glass {
+            background: rgba(17, 17, 17, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(63, 63, 70, 0.4);
-        }
-        
-        /* Neon red glow */
-        .neon-red {
-            box-shadow: 0 0 15px rgba(214, 0, 28, 0.4);
-        }
-        .text-neon-red {
-            text-shadow: 0 0 10px rgba(214, 0, 28, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Hero video scaling & position */
-        #hero-video {
+        .autel-glass-input {
+            background: rgba(5, 5, 5, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .autel-glass-input:focus {
+            border-color: #D6001C;
+            box-shadow: 0 0 15px rgba(214, 0, 28, 0.2);
+        }
+
+        /* Lueurs rouges arrière-plan */
+        .glow-subtle {
+            box-shadow: 0 0 30px rgba(214, 0, 28, 0.15);
+        }
+
+        .glow-line {
+            position: relative;
+        }
+        .glow-line::after {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            opacity: 0.7; /* Overlay transparency applied */
-            z-index: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #D6001C, transparent);
         }
     </style>
 </head>
-<body class="text-zinc-100 min-h-screen antialiased selection:bg-[#D6001C] selection:text-white overflow-x-hidden">
+<body class="antialiased selection:bg-[#D6001C] selection:text-white">
 
-    <header class="absolute top-0 left-0 w-full z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
-            <div class="flex items-center gap-3.5">
-                <div class="w-11 h-11 rounded-lg bg-gradient-to-br from-zinc-800 to-black border border-zinc-700 flex items-center justify-center shadow-2xl relative overflow-hidden group">
-                  <div class="absolute inset-0 bg-gradient-to-r from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <Activity class="w-5 h-5 text-[#D6001C] relative z-10" />
+    <div class="fixed inset-0 grid grid-cols-4 max-w-7xl mx-auto px-4 pointer-events-none z-0 opacity-[0.02]">
+        <div class="border-l border-white h-full w-full"></div>
+        <div class="border-l border-white h-full w-full"></div>
+        <div class="border-l border-white h-full w-full"></div>
+        <div class="border-r border-white h-full w-full"></div>
+    </div>
+
+    <div class="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#D6001C]/5 rounded-full blur-[180px] pointer-events-none z-0"></div>
+    <div class="absolute top-[2500px] right-1/4 w-[700px] h-[700px] bg-[#D6001C]/3 rounded-full blur-[220px] pointer-events-none z-0"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#050505]/80 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-[#D6001C] flex items-center justify-center rounded-sm shadow-lg shadow-[#D6001C]/20">
+                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
                 </div>
                 <div>
-                  <span class="text-base font-extrabold tracking-widest text-white block">ATELIER OLOUWABE</span>
-                  <span class="text-[10px] text-zinc-500 tracking-wider uppercase font-semibold block">Core Intelligence</span>
+                    <span class="text-sm font-black tracking-[0.25em] text-white">AUTEL <span class="font-light text-zinc-400">CORE</span></span>
+                    <span class="text-[9px] text-zinc-500 font-mono tracking-widest block uppercase">OLOUWABE LABS</span>
                 </div>
             </div>
             
-            <nav class="hidden lg:flex items-center gap-10 text-[10px] font-mono tracking-[0.2em] uppercase text-zinc-400">
-                <a href="#" class="hover:text-white transition-colors relative group">Home<span class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D6001C] scale-x-0 group-hover:scale-x-100 transition-transform"></span></a>
-                <a href="#topology" class="hover:text-red-500 transition-colors flex items-center gap-2">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#D6001C] animate-ping"></span> Telemetry OS
-                </a>
-                <a href="#works" class="hover:text-white transition-colors">Labo Réparations</a>
-                <a href="#ai-diagnostics" class="hover:text-white transition-colors relative group">IA Analyse</a>
-                <a href="#services" class="hover:text-white transition-colors relative group">Engineering</a>
+            <nav class="hidden lg:flex items-center gap-8 text-[11px] font-medium tracking-wider uppercase text-zinc-400">
+                <a href="#hero" class="hover:text-white transition-colors">Accueil</a>
+                <a href="#services" class="hover:text-white transition-colors">Services</a>
+                <a href="#works" class="hover:text-[#D6001C] transition-colors">Dossiers</a>
+                <a href="#products" class="hover:text-white transition-colors">Produits</a>
+                <a href="#diagnostic-dashboard" class="hover:text-white transition-colors">Telemetry</a>
+                <a href="#appointment" class="hover:text-white transition-colors">Rendez-vous</a>
             </nav>
 
-            <div class="flex items-center gap-6">
-                <div class="hidden xl:flex flex-col text-right font-mono text-[11px] space-y-0.5">
-                    <a href="tel:0191225380" className="text-white font-bold hover:text-[#D6001C] transition-colors tracking-wider">0191225380</a>
-                    <span className="text-zinc-600 text-[10px]">kponadouo@gmail.com</span>
-                </div>
-                <a href="#intake" class="px-5 py-3 rounded border border-red-900/40 bg-gradient-to-b from-red-950/20 to-red-900/10 hover:from-red-600 hover:to-red-700 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-red-400 hover:text-white shadow-xl shadow-red-950/40 transition-all duration-300 transform active:scale-95">
-                  INTAKE CORE
+            <div class="flex items-center gap-4">
+                <a href="tel:0191225380" class="hidden xl:block font-mono text-xs text-zinc-300 hover:text-[#D6001C] font-bold transition-colors">0191225380</a>
+                <a href="#appointment" class="px-5 py-2.5 bg-[#D6001C] hover:bg-[#b50017] text-white text-[11px] font-bold uppercase tracking-wider rounded-sm shadow-md shadow-[#D6001C]/10 transition-all duration-300">
+                    DIAGNOSTIC INTAKE
                 </a>
             </div>
         </div>
     </header>
 
-    <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden z-10">
-        
-        <video autoplay loop muted playsinline id="hero-video" class="pointer-events-none">
-            <source src="https://assets.mixkit.co/videos/download/mixkit-black-luxury-car-cruising-slowly-at-night-42416-medium.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la vidéo.
-        </video>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
-          
-          <div class="lg:col-span-6 space-y-8 text-center lg:text-left mt-24">
-            <div class="inline-flex items-center gap-3 px-3 py-1 rounded bg-zinc-950 border border-zinc-800 text-[10px] font-mono text-zinc-300">
-                <i data-lucide="zap" class="w-3.5 h-3.5 text-[#D6001C] animate-pulse"></i>
-                SYSTEM STATUS: OBD-II COMPLIANT CONNECTED
-            </div>
-            
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[1.05] uppercase text-white">
-                Diagnostic Automobile<br class="hidden sm:inline"/>
-                Intelligent <br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-white to-zinc-600">
+    <section id="hero" class="relative h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden z-10 border-b border-white/5">
+        <div class="absolute inset-0 z-0 bg-black">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-30 filter grayscale contrast-125">
+                <source src="https://assets.mixkit.co/videos/download/mixkit-black-luxury-car-cruising-slowly-at-night-42416-medium.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-[#050505]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#111111] border border-white/10 rounded-sm text-[10px] font-mono tracking-wider text-zinc-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#D6001C] animate-pulse"></span>
+                    AUTEL PLATFORM LINK // ONLINE ACTIVE NODE
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-black tracking-tight uppercase leading-[0.95] text-white">
+                    Diagnostic Automobile <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#D6001C] to-white">
+                        Intelligent
+                    </span> <br/>
                     Nouvelle Génération
-                </span>
-            </h1>
-            
-            <p class="text-zinc-400 max-w-xl mx-auto lg:mx-0 font-sans text-sm sm:text-base font-light leading-relaxed">
-              Analyse ECU approfondie, Diagnostic de pointe Mercedes-Benz, Test de résistance cellules Batterie et Réparation Électronique Professionnelle certifiée constructeur.
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 font-mono text-[11px] font-bold tracking-wider">
-              <a href="#topology" class="w-full sm:w-auto px-6 py-4 rounded bg-white text-black hover:bg-zinc-200 transition-all flex items-center justify-center gap-2">
-                <i data-lucide="gauge" class="w-4 h-4"></i> DÉMARRER UN DIAGNOSTIC
-              </a>
-              <a href="#report" class="w-full sm:w-auto px-6 py-4 rounded border border-zinc-800 bg-zinc-950 hover:bg-zinc-900 text-zinc-300 hover:text-white transition-all flex items-center justify-center gap-2">
-                <i data-lucide="file-text" class="w-4 h-4"></i> VOIR LES RAPPORTS
-              </a>
-              <a href="#contact" class="hidden sm:inline-block px-4 py-2 text-zinc-500 hover:text-red-500 transition-colors">Contacter l'Atelier</a>
+                </h1>
+                <p class="text-zinc-400 max-w-xl mx-auto lg:mx-0 text-sm sm:text-base font-light leading-relaxed">
+                    Diagnostic Mercedes-Benz, Analyse ECU, Test Batterie et Réparation Électronique Professionnelle. Exploitez la puissance logicielle d'une ingénierie de pointe calibrée.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#works" class="w-full sm:w-auto px-7 py-4 bg-white text-black font-bold uppercase text-[11px] tracking-wider rounded-sm hover:bg-zinc-200 transition-all text-center">Voir les Travaux</a>
+                    <a href="#products" class="w-full sm:w-auto px-7 py-4 bg-[#111111] border border-white/10 text-white font-bold uppercase text-[11px] tracking-wider rounded-sm hover:bg-zinc-900 transition-all text-center">Voir les Produits</a>
+                    <a href="#appointment" class="w-full sm:w-auto px-7 py-4 bg-[#D6001C] text-white font-bold uppercase text-[11px] tracking-wider rounded-sm hover:bg-[#b50017] transition-all text-center">Prendre Rendez-vous</a>
+                </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-6 pt-8 border-t border-zinc-900 font-mono text-center lg:text-left">
-              <div>
-                <span class="block text-3xl font-black text-white">42+</span>
-                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-600 mt-1 block">Modules CAN Scannés</span>
-              </div>
-              <div>
-                <span class="block text-3xl font-black text-[#D6001C] text-neon-red">12.1V</span>
-                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-600 mt-1 block">Tension Réseau Bus</span>
-              </div>
-              <div>
-                <span class="block text-3xl font-black text-white">0.02s</span>
-                <span class="text-[9px] uppercase font-bold tracking-widest text-zinc-600 mt-1 block">Latence Transaction</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-6 flex justify-center w-full relative">
-            <div class="absolute -inset-4 bg-gradient-to-r from-red-600/5 to-transparent blur-3xl pointer-events-none" />
-            <div class="w-full max-w-xl glass-panel p-6 rounded-2xl relative overflow-hidden shadow-2xl neon-red font-mono text-xs">
-                
-                <div class="flex items-center justify-between pb-3 border-b border-zinc-800 mb-4">
-                    <span class="text-[10px] font-bold text-zinc-400 tracking-widest uppercase">STAR DIAGNOSTIC OS v6.35</span>
-                    <span class="text-[9px] font-mono bg-red-950 text-red-400 px-2 py-0.5 rounded border border-red-900/40">SYS_ONLINE</span>
-                </div>
-                
-                <div class="bg-black/60 rounded-xl p-5 border border-zinc-900 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-base font-bold text-white group-hover:text-[#D6001C] transition-colors">Mercedes-Benz GLC (253)</h3>
-                            <p class="text-[11px] font-mono text-zinc-500 mt-0.5">VIN: WDC0G4JB9GF110677</p>
+            <div class="lg:col-span-5 hidden lg:block">
+                <div class="autel-glass p-6 rounded-lg glow-subtle border border-white/10 space-y-4 font-mono text-xs relative overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-[#D6001C] shadow-[0_0_15px_#D6001C] animate-[pulse_2s_infinite]"></div>
+                    <div class="flex items-center justify-between text-[10px] text-zinc-500 border-b border-white/5 pb-3">
+                        <span>AUTEL DIAGNOSTIC MONITOR</span>
+                        <span class="text-[#D6001C]">LIVE FEED</span>
+                    </div>
+                    <div class="space-y-2 text-zinc-400">
+                        <div class="flex justify-between"><span>VEHICLE:</span><span class="text-white">Mercedes-Benz AMG GT</span></div>
+                        <div class="flex justify-between"><span>VIN LOG:</span><span class="text-white">WDD2906891AXXXXXX</span></div>
+                        <div class="flex justify-between"><span>CAN BUS STATUS:</span><span class="text-emerald-400 font-bold">NOMINAL 100%</span></div>
+                    </div>
+                    <div class="h-[1px] bg-white/5"></div>
+                    <div class="space-y-1">
+                        <span class="text-[10px] text-zinc-500 block">REALTIME VOLTAGE FLUCTUATION</span>
+                        <div class="h-12 bg-black/40 rounded border border-white/5 flex items-end p-1 gap-0.5">
+                            <div class="w-full bg-[#D6001C] h-[60%] opacity-80"></div>
+                            <div class="w-full bg-[#D6001C] h-[75%] opacity-80"></div>
+                            <div class="w-full bg-[#D6001C] h-[45%] opacity-80"></div>
+                            <div class="w-full bg-[#D6001C] h-[90%] opacity-100 shadow-[0_0_8px_#D6001C]"></div>
+                            <div class="w-full bg-zinc-800 h-[70%]"></div>
+                            <div class="w-full bg-[#D6001C] h-[80%] opacity-90"></div>
                         </div>
-                        <span class="text-[10px] font-mono text-red-500 bg-red-950/30 px-2 py-1 rounded border border-red-900/20">1 DEFAUT</span>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-3 pt-3 border-t border-zinc-900/60">
-                        <div class="relative w-full h-24 overflow-hidden rounded border border-zinc-800">
-                            <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=300" alt="Scanner AUTEL Pro" class="w-full h-full object-cover grayscale opacity-40 contrast-125 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                        </div>
-                        <div class="relative w-full h-24 overflow-hidden rounded border border-zinc-800">
-                            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=300" alt="ECU scanning" class="w-full h-full object-cover grayscale opacity-40 contrast-125 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                        </div>
-                    </div>
-
-                    <div class="w-full bg-zinc-900 h-10 rounded-lg flex items-center justify-center relative overflow-hidden border border-zinc-800 mt-4">
-                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-red-600/10 to-transparent animate-[pulse_2s_infinite]"></div>
-                        <span class="text-[11px] font-mono tracking-widest text-zinc-400 z-10 animate-pulse">ECU INTERROGATION: BUS_CAN_LINK 0x0A...</span>
-                    </div>
-                </div>
-
-                <div class="absolute -top-6 -right-6 glass-panel p-4 rounded-xl flex items-center gap-3 neon-red shadow-xl">
-                    <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-red-500">
-                        <Cpu class="w-4 h-4 animate-pulse" />
-                    </div>
-                    <div>
-                        <span class="text-[9px] text-zinc-500 block uppercase font-bold">IA Analysis</span>
-                        <span class="text-[11px] font-bold text-white block mt-0.5">RECALIBRAGE SAMF...</span>
                     </div>
                 </div>
             </div>
-          </div>
-
         </div>
     </section>
 
-    <section id="works" class="py-24 bg-zinc-950/40 border-t border-zinc-900 relative z-10">
+    <section id="services" class="py-24 bg-[#111111] border-b border-white/5 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 space-y-2">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Real Automotive Engineering Files</span>
-                <h2 class="text-3xl font-black text-white tracking-tight uppercase">Dossiers de Réparations Élite</h2>
+            <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
+                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Engineering Capabilities</span>
+                <h2 class="text-3xl font-black text-white uppercase tracking-tight">Services Technologiques Spécifiques</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 bg-[#050505] border border-white/5 rounded-sm hover:border-[#D6001C]/40 transition-all duration-300 group">
+                    <i data-lucide="activity" class="w-8 h-8 text-[#D6001C] mb-4"></i>
+                    <h3 class="text-base font-bold text-white mb-2 uppercase tracking-wide">Analyse Systèmes OBD</h3>
+                    <p class="text-zinc-400 text-xs font-light leading-relaxed">Interrogation granulaire des passerelles de bus de données multiplexés pour isoler les déviances structurales.</p>
+                </div>
+                <div class="p-6 bg-[#050505] border border-white/5 rounded-sm hover:border-[#D6001C]/40 transition-all duration-300 group">
+                    <i data-lucide="layers" class="w-8 h-8 text-[#D6001C] mb-4"></i>
+                    <h3 class="text-base font-bold text-white mb-2 uppercase tracking-wide">Codage En Ligne ECU</h3>
+                    <p class="text-zinc-400 text-xs font-light leading-relaxed">Téléchargement et mise en conformité des micrologiciels calculateurs directement synchronisés sur serveurs constructeurs.</p>
+                </div>
+                <div class="p-6 bg-[#050505] border border-white/5 rounded-sm hover:border-[#D6001C]/40 transition-all duration-300 group">
+                    <i data-lucide="zap" class="w-8 h-8 text-[#D6001C] mb-4"></i>
+                    <h3 class="text-base font-bold text-white mb-2 uppercase tracking-wide">Diagnostic SOH Batterie</h3>
+                    <p class="text-zinc-400 text-xs font-light leading-relaxed">Évaluation avancée de l'état de santé, équilibrage logiciel des cellules de stockage d'énergie haute tension.</p>
+                </div>
+                <div class="p-6 bg-[#050505] border border-white/5 rounded-sm hover:border-[#D6001C]/40 transition-all duration-300 group">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-[#D6001C] mb-4"></i>
+                    <h3 class="text-base font-bold text-white mb-2 uppercase tracking-wide">Alignement Radar ADAS</h3>
+                    <p class="text-zinc-400 text-xs font-light leading-relaxed">Calibration géométrique ultra-précise des caméras prédictives et capteurs de proximité embarqués.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="py-24 bg-[#050505] border-b border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+                <div>
+                    <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Verified Production Logs</span>
+                    <h2 class="text-3xl font-black text-white uppercase tracking-tight">Dossiers d'Interventions Majeures</h2>
+                </div>
+                <span class="text-[11px] font-mono text-zinc-500 bg-[#111111] px-3 py-1 rounded border border-white/5">8 RECORDS ACTIVATED</span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                    <div class="relative h-56 overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800" alt="Scan moteur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
-                        <span class="absolute top-3 left-3 px-2 py-0.5 bg-red-950/80 border border-red-900/40 rounded text-[9px] font-mono text-red-400 font-bold uppercase tracking-wider">
-                            COMPLETE (100%)
-                        </span>
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=600" alt="Diagnostic Mercedes-Benz" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900">
-                      <div class="space-y-1">
-                        <span class="text-[9px] text-zinc-600 block uppercase font-bold tracking-wider">Réparation Électronique // GLC</span>
-                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1 group-hover:text-[#D6001C] transition-colors">Remédiation Bus CAN SAMF</h4>
-                      </div>
-                      <div class="pt-3 border-t border-zinc-900 text-[10px] space-y-1 text-zinc-500">
-                        <div class="flex justify-between"><span>SITUATION :</span><span class="text-green-400 font-bold">RÉSISTANCE OK (4.2mΩ)</span></div>
-                        <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-red-500">Latency < 1.1ms</span></div>
-                      </div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Diagnostic Mercedes-Benz V-Class</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Restauration de la communication avec la passerelle centrale CGW.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-emerald-400 font-bold">100% SUCCESS</span></div>
                     </div>
-                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D6001C] scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                 </div>
 
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                    <div class="relative h-56 overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1558441719-ff34b0524a24?auto=format&fit=crop&q=80&w=800" alt="Test batterie" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=600" alt="Analyse ECU" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900">
-                      <div class="space-y-1">
-                        <span class="text-[9px] text-zinc-600 block uppercase font-bold tracking-wider">Diagnostic Intelligent // Cellule</span>
-                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1 group-hover:text-[#D6001C] transition-colors">Analyse SOH Cellulaire HT</h4>
-                      </div>
-                      <div class="pt-3 border-t border-zinc-900 text-[10px] space-y-1 text-zinc-500">
-                        <div class="flex justify-between"><span>SOH :</span><span class="text-white font-bold">78%</span></div>
-                        <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-amber-500">Remplacement Recommandé (IA)</span></div>
-                      </div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Analyse ECU Bosch MED17.7.2</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Recodage des tables d'injection d'un calculateur de gestion thermique.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-emerald-400 font-bold">ALIGNEMENT OK</span></div>
                     </div>
-                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D6001C] scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                 </div>
 
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                    <div class="relative h-56 overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Programmation ECU" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
-                        <span class="absolute top-3 left-3 px-2 py-0.5 bg-green-950/80 border border-green-900/40 rounded text-[9px] font-mono text-green-400 font-bold uppercase tracking-wider">
-                            CODAGE VALIDÉ
-                        </span>
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600" alt="Réparation électronique" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900">
-                      <div class="space-y-1">
-                        <span class="text-[9px] text-zinc-600 block uppercase font-bold tracking-wider">Calibration Avancée // ME-SFI</span>
-                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1 group-hover:text-[#D6001C] transition-colors">Programmation Injecteurs Piézo</h4>
-                      </div>
-                      <div class="pt-3 border-t border-zinc-900 text-[10px] space-y-1 text-zinc-500">
-                        <div class="flex justify-between"><span>ALIGNEMENT :</span><span class="text-white">Oui</span></div>
-                        <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-white">Correction Cyl. Équilibrée</span></div>
-                      </div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Réparation Électronique SAM Avant</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Remplacement des MOSFET de puissance sur circuit imprimé d'habitacle.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-emerald-400 font-bold">4.2 mΩ NOMINAL</span></div>
                     </div>
-                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D6001C] scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                 </div>
 
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                    <div class="relative h-56 overflow-hidden bg-black">
-                        <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=800" alt="Analyse Mercedes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558441719-ff34b0524a24?auto=format&fit=crop&q=80&w=600" alt="Test batterie" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900">
-                      <div class="space-y-1">
-                        <span class="text-[9px] text-zinc-600 block uppercase font-bold tracking-wider">Engineering Spécialisé // XENTRY</span>
-                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1 group-hover:text-[#D6001C] transition-colors">Diagnostic Multiplexé EZS</h4>
-                      </div>
-                      <div class="pt-3 border-t border-zinc-900 text-[10px] space-y-1 text-zinc-500">
-                        <div class="flex justify-between"><span>SITUATION :</span><span class="text-white font-bold">Auth Validée Clé</span></div>
-                        <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-zinc-300">Signal Carré LIN Stable</span></div>
-                      </div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Test Pack Batterie Li-Ion EQC</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Analyse thermique par impédancemétrie des cellules de puissance.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-white font-bold">SOH 94%</span></div>
                     </div>
-                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-[#D6001C] scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                 </div>
 
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                  <div class="relative h-56 overflow-hidden bg-black">
-                      <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=800" alt="Réparation calculateurs" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-500 opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
-                  </div>
-                  <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900 hover:text-[#D6001C]">
-                    <div class="space-y-1">
-                      <span class="text-[9px] text-zinc-600 block uppercase font-bold">Hardware Reset // BCM</span>
-                      <h4 class="text-white font-sans text-sm font-bold line-clamp-1">Réparation Module SAM Arrière</h4>
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=600" alt="Programmation calculateurs" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500">
-                      <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-green-400">14.2V Régulé (Alternateur)</span></div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Codage Synchrone Boîte ISM</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Appairage logiciel du servomoteur de sélection de rapport intelligent.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-emerald-400 font-bold">VÉRIFIÉ VMAX</span></div>
                     </div>
-                  </div>
                 </div>
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                  <div class="relative h-56 overflow-hidden bg-black">
-                      <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800" alt="Diagnostic intelligent" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-500 opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
-                  </div>
-                  <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900 hover:text-[#D6001C]">
-                    <div class="space-y-1">
-                      <span class="text-[9px] text-zinc-600 block uppercase font-bold">ECU Programming // Slicing</span>
-                      <h4 class="text-white font-sans text-sm font-bold line-clamp-1">Flashing Module de Sécurité AdBlue</h4>
+
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=600" alt="Diagnostic moteur" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500">
-                      <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-red-500">Firmware v6.35 Validé</span></div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Diagnostic Moteur OM654 V6</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Isolement d'une chute de pression de rampe d'injection commune.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-white">1600 BAR FLUID</span></div>
                     </div>
-                  </div>
                 </div>
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                  <div class="relative h-56 overflow-hidden bg-black">
-                      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Analyse systèmes électroniques" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-500 opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
-                  </div>
-                  <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900 hover:text-[#D6001C]">
-                    <div class="space-y-1">
-                      <span class="text-[9px] text-zinc-600 block uppercase font-bold">Components Coding // Injecteurs</span>
-                      <h4 class="text-white font-sans text-sm font-bold line-clamp-1">Codage Injecteurs Piézo Mercedes</h4>
+
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=600" alt="Analyse système électrique" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500">
-                      <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-white">Correction Cyl. Équilibrée</span></div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Isolation Court-Circuit LIN Bus</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Cartographie électrique par oscilloscope pour détection de fuite de masse.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-emerald-400 font-bold">0.02A SLEEP</span></div>
                     </div>
-                  </div>
                 </div>
-                <div class="group bg-zinc-950 rounded-xl border border-zinc-900 shadow-2xl relative overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
-                  <div class="relative h-56 overflow-hidden bg-black">
-                      <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=800" alt="Atelier moderne" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-500 opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-90" />
-                  </div>
-                  <div class="p-5 font-mono text-xs space-y-3 relative z-10 bg-zinc-950 flex-1 flex flex-col justify-between border-t border-zinc-900 hover:text-[#D6001C]">
-                    <div class="space-y-1">
-                      <span class="text-[9px] text-zinc-600 block uppercase font-bold">Maintenance Préventive // Star OS</span>
-                      <h4 class="text-white font-sans text-sm font-bold line-clamp-1">Suivi Prédictif Algorithmique</h4>
+
+                <div class="group bg-[#111111] rounded border border-white/5 overflow-hidden flex flex-col justify-between hover:border-zinc-800 transition-all duration-300">
+                    <div class="relative h-48 bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=600" alt="Calibration ADAS" class="w-full h-full object-cover filter grayscale contrast-125 opacity-40 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                        <span class="absolute top-3 left-3 bg-[#D6001C] text-white px-2 py-0.5 font-mono text-[9px] font-bold uppercase rounded-sm">TRAVAIL TERMINÉ</span>
                     </div>
-                    <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500">
-                      <div class="flex justify-between pt-1 font-bold"><span>METRIQUE :</span><span class="text-green-400">Scan Zone A Terminé</span></div>
+                    <div class="p-5 font-mono text-xs space-y-3 bg-[#111111]">
+                        <h4 class="text-white font-sans text-sm font-bold tracking-tight line-clamp-1">Calibration Dynamique ADAS Lidar</h4>
+                        <p class="text-zinc-500 text-[11px] font-sans font-light leading-snug line-clamp-2">Réalignement laser sur cible numérique du système de freinage autonome.</p>
+                        <div class="pt-2.5 border-t border-white/5 flex justify-between text-[10px] text-zinc-400"><span>PARAMÈTRE:</span><span class="text-emerald-400 font-bold">0.0° OFFSET</span></div>
                     </div>
-                  </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="intake" class="py-24 bg-black border-t border-zinc-900 relative z-10">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-          <div class="text-center mb-16 space-y-2 relative">
-            <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block mb-1">Secure Queue Intake Terminal</span>
-            <h2 class="text-3xl font-black text-white uppercase tracking-tight leading-tight">Soumettre un Dossier Télémétrique</h2>
-            <p class="text-zinc-500 text-xs font-mono">No fixed tariffs — Custom Diagnostic Télémétrie On-Demand</p>
-            <div class="absolute -inset-20 bg-[#D6001C]/5 blur-[100px] pointer-events-none" />
-          </div>
+    <section id="products" class="py-24 bg-[#111111] border-b border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16 text-center lg:text-left space-y-2">
+                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Official Autel hardware</span>
+                <h2 class="text-3xl font-black text-white uppercase tracking-tight">Catalogue des Systèmes Diagnostic & Hardware</h2>
+            </div>
 
-          <div class="bg-zinc-950 p-6 sm:p-10 rounded-2xl border border-zinc-900 shadow-2xl relative neon-red font-mono text-xs">
-            <form class="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Transmission sécurisée des données réussie au terminal reception.'); }}>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div class="space-y-1.5">
-                  <label class="text-zinc-600 uppercase text-[10px] font-bold">Identité Demandeur (Full Name)</label>
-                  <input type="text" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3.5 text-white outline-none transition-colors" placeholder="Jean-Pierre Dubois">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+                
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <span class="text-zinc-400 font-black text-2xl tracking-widest uppercase opacity-20 select-none z-0">AUTEL</span>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="tablet" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Scanners Autel Maxisys</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiSYS Ultra</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Tablette de diagnostic haut de gamme avec cartographie de topologie réseau avancée.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
                 </div>
-                <div class="space-y-1.5">
-                  <label class="text-zinc-600 uppercase text-[10px] font-bold">Numéro Téléphone (Contact Phone)</label>
-                  <input type="tel" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3.5 text-white outline-none transition-colors" placeholder="0191225380">
-                </div>
-              </div>
 
-              <div class="space-y-1.5">
-                <label class="text-zinc-600 uppercase text-[10px] font-bold">Canal E-mail Réception (Secure Email)</label>
-                <input type="email" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3.5 text-white outline-none transition-colors" placeholder="kponadouo@gmail.com">
-              </div>
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="tablet" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Scanners Autel Maxisys</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiSYS MS919</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Inclut l'interface VCMI 5-en-1 avec oscilloscope et générateur de signaux.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
 
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-1">
-                <div class="space-y-1.5">
-                  <label class="text-zinc-600 uppercase text-[9px] font-bold">Marque (Make)</label>
-                  <input type="text" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3 text-white outline-none transition-colors" placeholder="Mercedes">
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="tablet" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Scanners Autel Maxisys</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiSYS MS909</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Processeur Octa-core performant avec guidage d'analyse DTC structurelle.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
                 </div>
-                <div class="space-y-1.5">
-                  <label class="text-zinc-600 uppercase text-[9px] font-bold">Modèle (Model)</label>
-                  <input type="text" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3 text-white outline-none transition-colors" placeholder="GLC 253">
-                </div>
-                <div class="space-y-1.5">
-                  <label class="text-zinc-600 uppercase text-[9px] font-bold">Année (Year)</label>
-                  <input type="number" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3 text-white outline-none transition-colors" placeholder="2021">
-                </div>
-                <div class="space-y-1.5">
-                  <label class="text-zinc-600 uppercase text-[9px] font-bold">KM (Mileage)</label>
-                  <input type="number" required class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3 text-white outline-none transition-colors" placeholder="201747">
-                </div>
-              </div>
 
-              <div class="space-y-1.5 pt-1">
-                <label class="text-zinc-600 uppercase text-[10px] font-bold">Registre des Symptômes ou Code Panne Relevé</label>
-                <textarea rows={5} class="w-full bg-black border border-zinc-800 focus:border-zinc-600 rounded-lg p-3.5 text-white outline-none transition-colors resize-none placeholder:zinc-700" placeholder="Décrivez les voyants allumés ou comportements anormaux du véhicule..."></textarea>
-              </div>
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="tablet" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Outils Diagnostic Intel</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiDAS DS900</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Solution de diagnostic complète de niveau atelier pour opérations quotidiennes.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div class="border border-zinc-800 bg-black/40 p-5 rounded-xl flex flex-col items-center justify-center text-center group hover:border-zinc-700 transition-colors relative cursor-pointer">
-                    <i data-lucide="upload
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="activity" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Testeurs Batterie Pro</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiBAS BT608</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Analyseur de système électrique avec écran tactile capacitif et imprimante thermique.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="activity" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Testeurs Batterie Pro</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiBAS BT506</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Outil de test léger pour batteries automobiles et systèmes de charge alternateur.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="radio" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Outils TPMS Intégrés</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiTPMS ITS600</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Statut d'activation de capteurs de pression et fonctions de service de réapprentissage.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="radio" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Outils TPMS Intégrés</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiTPMS TS508</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Outil de diagnostic TPMS complet avec lecture de codes d'état en temps réel.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="cpu" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Outils ECU & Codage</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiFlash J2534</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Dispositif d'interface de programmation conforme aux normes Pass-Thru standards.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="maximize" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Systèmes ADAS Et Calibration</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">Autel ADAS MA600</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Structure d'étalonnage portable pliable pour techniciens en déplacement.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="tablet" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Tablettes Diagnostic</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiSYS MS906 Pro</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Diagnostic bidirectionnel avancé et accès complet aux protocoles sécurisés.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="link" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Câbles Et Connectique Auto</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">Autel CAN FD Adapter</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Adaptateur de traitement réseau haute vitesse pour nouveaux modèles de bus.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="key" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Programmateurs Clés</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiIM IM608 II</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Appairage antidémarrage d'élite de niveau ingénieur réseau.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="key" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Programmateurs Clés</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">MaxiIM IM508S</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Solution compacte pour programmation de transpondeurs de clés électroniques.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Détails Système</button>
+                </div>
+
+                <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
+                    <div class="h-36 w-full bg-[#111111] rounded flex items-center justify-center p-4 mb-4 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                        <div class="w-16 h-16 rounded bg-zinc-900 border border-white/5 flex items-center justify-center z-10 text-[#D6001C] group-hover:scale-110 transition-transform"><i data-lucide="sliders" class="w-8 h-8"></i></div>
+                    </div>
+                    <div class="space-y-1 font-mono">
+                        <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block">Outils Calibration</span>
+                        <h4 class="text-white text-xs font-bold font-sans line-clamp-1 group-hover:text-[#D6001C] transition-colors">Autel ADAS IA800</h4>
+                        <p class="text-[11px] text-zinc-500 font-sans font-light line-clamp-2 leading-tight">Système de positionnement optique 3D intelligent via caméras de géométrie.</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 bg-[#111111] text-zinc-300 text-[10px] font-bold uppercase rounded border border-white/5 hover:bg-[#D6001C] hover:text-white hover
