@@ -1,422 +1,1106 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUTEL Dynamic Core | ATELIER OLOUWABE</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #050505;
-            color: #FFFFFF;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATELIER OLOUWABE — Diagnostic Automobile Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #D6001C;
+  --red-glow: rgba(214,0,28,0.3);
+  --red-dim: rgba(214,0,28,0.08);
+  --black: #050505;
+  --dark: #111111;
+  --mid: #1a1a1a;
+  --border: rgba(255,255,255,0.07);
+  --white: #FFFFFF;
+  --gray: #888888;
+  --light-gray: #cccccc;
+  --font: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #D6001C; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--black);color:var(--white);font-family:var(--font-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-        .autel-glass {
-            background: rgba(17, 17, 17, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--red)}
 
-        .autel-glass-input {
-            background: rgba(5, 5, 5, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s ease;
-        }
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:0 4rem;height:70px;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease}
+nav.scrolled{background:rgba(5,5,5,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-icon{width:36px;height:36px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-weight:900;font-size:14px;letter-spacing:1px;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px)}
+.nav-logo-text{font-family:var(--font);font-weight:800;font-size:18px;letter-spacing:3px;text-transform:uppercase}
+.nav-logo-text span{color:var(--red)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--font);font-weight:500;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--light-gray);text-decoration:none;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--red);transition:width .3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--red);color:var(--white);font-family:var(--font);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;border:none;cursor:pointer;clip-path:polygon(6px 0%,100% 0%,100% calc(100% - 6px),calc(100% - 6px) 100%,0% 100%,0% 6px);transition:all .3s}
+.nav-cta:hover{background:#ff0022;transform:translateY(-1px)}
 
-        .autel-glass-input:focus {
-            border-color: #D6001C;
-            box-shadow: 0 0 15px rgba(214, 0, 28, 0.3);
-        }
+/* ─── HERO ─── */
+#hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg video{width:100%;height:100%;object-fit:cover;opacity:0.35}
+.hero-bg-fallback{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 50%, rgba(214,0,28,0.12) 0%, transparent 60%),linear-gradient(135deg,#050505 0%,#0d0d0d 40%,#111111 100%)}
+/* animated scan lines */
+.hero-scanlines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(214,0,28,0.02) 2px,rgba(214,0,28,0.02) 4px);pointer-events:none;z-index:1}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,0.92) 0%,rgba(5,5,5,0.6) 50%,rgba(5,5,5,0.3) 100%);z-index:2}
+.hero-content{position:relative;z-index:10;padding:0 4rem;max-width:900px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(214,0,28,0.12);border:1px solid rgba(214,0,28,0.3);padding:6px 16px;margin-bottom:2rem;font-family:var(--font);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);animation:fadeInUp .8s ease forwards}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 var(--red-glow)}50%{opacity:.7;box-shadow:0 0 0 6px transparent}}
+.hero-title{font-family:var(--font);font-weight:900;font-size:clamp(3rem,6vw,6.5rem);line-height:0.92;text-transform:uppercase;letter-spacing:-1px;margin-bottom:1.5rem;animation:fadeInUp .8s .15s ease both}
+.hero-title span{color:var(--red);display:block}
+.hero-subtitle{font-family:var(--font-body);font-weight:300;font-size:clamp(1rem,1.4vw,1.2rem);color:rgba(255,255,255,0.65);max-width:580px;line-height:1.7;margin-bottom:2.5rem;animation:fadeInUp .8s .3s ease both}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:1rem;animation:fadeInUp .8s .45s ease both}
+.btn-primary{background:var(--red);color:var(--white);font-family:var(--font);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;border:none;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px);transition:all .3s;text-decoration:none;display:inline-block}
+.btn-primary:hover{background:#ff0022;transform:translateY(-2px);box-shadow:0 8px 30px rgba(214,0,28,0.4)}
+.btn-outline{background:transparent;color:var(--white);font-family:var(--font);font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:13px 32px;border:1px solid rgba(255,255,255,0.25);cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block}
+.btn-outline:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
 
-        /* Animation de scan IA */
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { top: 100%; opacity: 0; }
-        }
-        .scan-line {
-            animation: scan 3s linear infinite;
-        }
-    </style>
+/* HUD elements */
+.hero-hud{position:absolute;right:5%;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:1rem;animation:fadeInRight .8s .6s ease both}
+.hud-card{background:rgba(5,5,5,0.8);border:1px solid var(--border);backdrop-filter:blur(20px);padding:16px 20px;min-width:200px;position:relative;overflow:hidden}
+.hud-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--red)}
+.hud-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(214,0,28,0.05),transparent);pointer-events:none}
+.hud-label{font-family:var(--font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.hud-value{font-family:var(--font);font-weight:800;font-size:24px;color:var(--white)}
+.hud-sub{font-family:var(--font);font-size:11px;color:var(--gray);letter-spacing:1px}
+.scan-line{position:absolute;left:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);animation:scanDown 3s linear infinite}
+@keyframes scanDown{0%{top:-1px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:100%;opacity:0}}
+
+/* hero scroll indicator */
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--font);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gray)}
+.hero-scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--red),transparent);animation:scrollAnim 1.5s ease-in-out infinite}
+@keyframes scrollAnim{0%,100%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInRight{from{opacity:0;transform:translate(30px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+
+/* ─── SECTION BASE ─── */
+section{padding:6rem 4rem}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-tag{display:inline-block;font-family:var(--font);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:1rem;padding:4px 12px;border:1px solid rgba(214,0,28,0.3)}
+.section-title{font-family:var(--font);font-weight:900;font-size:clamp(2.5rem,4vw,4rem);text-transform:uppercase;letter-spacing:-1px;line-height:0.95}
+.section-title span{color:var(--red)}
+.section-line{width:60px;height:3px;background:var(--red);margin:1.5rem auto 0;position:relative}
+.section-line::after{content:'';position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:8px;height:8px;background:var(--red);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%)}
+
+/* ─── SERVICES ─── */
+#services{background:var(--dark)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border)}
+.service-card{background:var(--dark);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:all .4s ease;cursor:default}
+.service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.service-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(214,0,28,0.05),transparent);opacity:0;transition:opacity .4s}
+.service-card:hover{background:#131313;transform:translateY(-4px)}
+.service-card:hover::before{transform:scaleX(1)}
+.service-card:hover::after{opacity:1}
+.service-icon{width:52px;height:52px;background:var(--red-dim);border:1px solid rgba(214,0,28,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:22px;transition:all .4s}
+.service-card:hover .service-icon{background:rgba(214,0,28,0.15);border-color:var(--red)}
+.service-name{font-family:var(--font);font-weight:700;font-size:1.4rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem}
+.service-desc{font-size:.9rem;color:var(--gray);line-height:1.6}
+.service-number{position:absolute;top:2rem;right:2rem;font-family:var(--font);font-weight:900;font-size:3rem;color:rgba(214,0,28,0.06);line-height:1}
+
+/* ─── TRAVAUX ─── */
+#travaux{background:var(--black)}
+.travaux-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.travail-item{position:relative;overflow:hidden;aspect-ratio:4/3;cursor:pointer}
+.travail-item:first-child,.travail-item:nth-child(4){grid-column:span 2}
+.travail-img{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .6s ease;filter:grayscale(20%)}
+.travail-item:hover .travail-img{transform:scale(1.05);filter:grayscale(0)}
+.travail-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,0.95) 0%,rgba(5,5,5,0.2) 60%,transparent 100%);opacity:0;transition:opacity .4s}
+.travail-item:hover .travail-overlay{opacity:1}
+.travail-info{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;transform:translateY(20px);opacity:0;transition:all .4s}
+.travail-item:hover .travail-info{transform:translateY(0);opacity:1}
+.travail-badge{display:inline-block;background:var(--red);font-family:var(--font);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;margin-bottom:.5rem}
+.travail-title{font-family:var(--font);font-weight:800;font-size:1.3rem;text-transform:uppercase}
+
+/* stats bar */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:4rem}
+.stat-item{background:var(--dark);padding:2rem;text-align:center}
+.stat-num{font-family:var(--font);font-weight:900;font-size:3.5rem;color:var(--red);line-height:1;display:block}
+.stat-label{font-family:var(--font);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-top:.5rem}
+
+/* ─── PRODUITS ─── */
+#produits{background:var(--dark)}
+.produits-filter{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.filter-btn{font-family:var(--font);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;background:transparent;border:1px solid var(--border);color:var(--gray);cursor:pointer;transition:all .3s}
+.filter-btn.active,.filter-btn:hover{background:var(--red);border-color:var(--red);color:var(--white)}
+.produits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--border)}
+.produit-card{background:var(--dark);position:relative;overflow:hidden;transition:all .4s;cursor:pointer}
+.produit-card:hover{background:var(--mid);transform:translateY(-4px);z-index:2;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.produit-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:#0d0d0d;display:flex;align-items:center;justify-content:center}
+.produit-img{width:85%;height:85%;object-fit:contain;transition:transform .5s ease;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.5))}
+.produit-card:hover .produit-img{transform:scale(1.08)}
+.produit-category{position:absolute;top:12px;left:12px;background:rgba(214,0,28,0.9);font-family:var(--font);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px}
+.produit-body{padding:1.25rem}
+.produit-name{font-family:var(--font);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem;line-height:1.2}
+.produit-desc{font-size:.8rem;color:var(--gray);line-height:1.5;margin-bottom:1rem}
+.produit-footer{display:flex;align-items:center;justify-content:space-between}
+.produit-price{font-family:var(--font);font-weight:700;font-size:1.1rem;color:var(--red)}
+.btn-sm{background:transparent;border:1px solid rgba(214,0,28,0.4);color:var(--red);font-family:var(--font);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;cursor:pointer;transition:all .3s}
+.btn-sm:hover{background:var(--red);color:var(--white);border-color:var(--red)}
+
+/* ─── DIAGNOSTIC ─── */
+#diagnostic{background:var(--black)}
+.diag-container{max-width:900px;margin:0 auto}
+.diag-terminal{background:var(--dark);border:1px solid var(--border);position:relative;overflow:hidden}
+.diag-terminal::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(214,0,28,0.03) 24px,rgba(214,0,28,0.03) 25px);pointer-events:none}
+.diag-topbar{background:var(--mid);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.diag-dots{display:flex;gap:6px}
+.diag-dot{width:10px;height:10px;border-radius:50%}
+.diag-dot.red{background:var(--red)}
+.diag-dot.yellow{background:#888}
+.diag-dot.green{background:#555}
+.diag-title-bar{font-family:var(--font);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray)}
+.diag-status{font-family:var(--font);font-size:10px;color:var(--red);letter-spacing:2px;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.diag-body{padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.diag-field{margin-bottom:1.2rem}
+.diag-label{font-family:var(--font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.diag-value{font-family:'Courier New',monospace;font-size:1rem;color:var(--white);background:rgba(214,0,28,0.05);border:1px solid rgba(214,0,28,0.15);padding:8px 12px;display:block}
+.diag-bar-wrap{margin-bottom:1.5rem}
+.diag-bar-label{display:flex;justify-content:space-between;font-family:var(--font);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:6px}
+.diag-bar-label span:last-child{color:var(--white)}
+.diag-bar-track{height:4px;background:rgba(255,255,255,0.08)}
+.diag-bar-fill{height:100%;background:var(--red);position:relative;transition:width 1.5s ease}
+.diag-bar-fill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:8px;height:8px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--red)}
+.diag-dtc{background:rgba(214,0,28,0.08);border:1px solid rgba(214,0,28,0.2);padding:1rem;margin-top:1rem}
+.dtc-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-family:var(--font);font-size:.9rem}
+.dtc-row:last-child{border:none}
+.dtc-code{color:var(--red);font-weight:700;letter-spacing:1px}
+.dtc-severity{font-size:10px;letter-spacing:1px;padding:2px 8px;border:1px solid}
+.dtc-severity.critical{color:var(--red);border-color:var(--red)}
+.dtc-severity.warning{color:#888;border-color:#555}
+.scan-progress{margin-top:1.5rem;padding:1rem;border:1px solid var(--border)}
+.scan-label{font-family:var(--font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;display:flex;justify-content:space-between}
+.scan-track{height:2px;background:rgba(255,255,255,0.05);overflow:hidden}
+.scan-fill{height:100%;width:78%;background:linear-gradient(90deg,var(--red),#ff4444);animation:scanning 2s ease-in-out infinite alternate}
+@keyframes scanning{from{width:20%}to{width:90%}}
+.diag-btn{display:block;width:100%;margin-top:1.5rem;background:var(--red);color:var(--white);font-family:var(--font);font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;padding:14px;text-align:center;border:none;cursor:pointer;transition:all .3s}
+.diag-btn:hover{background:#ff0022}
+
+/* ─── GALERIE ─── */
+#galerie{background:var(--dark)}
+.galerie-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,200px);gap:2px}
+.galerie-item{overflow:hidden;position:relative;cursor:pointer}
+.galerie-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+.galerie-item:nth-child(5){grid-column:span 2}
+.galerie-img{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .6s ease;filter:grayscale(30%)}
+.galerie-item:hover .galerie-img{transform:scale(1.1);filter:grayscale(0)}
+.galerie-overlay{position:absolute;inset:0;background:rgba(214,0,28,0);transition:background .4s}
+.galerie-item:hover .galerie-overlay{background:rgba(214,0,28,0.12)}
+
+/* ─── TEMOIGNAGES ─── */
+#temoignages{background:var(--black)}
+.temoignages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.temoignage-card{background:var(--dark);padding:2rem;position:relative;overflow:hidden;transition:all .4s}
+.temoignage-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.temoignage-card:hover::before{transform:scaleX(1)}
+.temoignage-card:hover{background:#131313}
+.quote-icon{font-size:3rem;color:var(--red);opacity:.4;font-family:Georgia,serif;line-height:1;margin-bottom:1rem}
+.temoignage-text{font-size:.9rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:1.5rem;font-style:italic}
+.temoignage-author{display:flex;align-items:center;gap:12px}
+.author-avatar{width:42px;height:42px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--font);font-weight:900;font-size:16px;clip-path:polygon(4px 0%,100% 0%,100% calc(100% - 4px),calc(100% - 4px) 100%,0% 100%,0% 4px)}
+.author-name{font-family:var(--font);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.author-vehicle{font-size:.8rem;color:var(--gray)}
+.stars{color:var(--red);font-size:.9rem;letter-spacing:2px}
+
+/* ─── RDV ─── */
+#rdv{background:var(--dark)}
+.rdv-container{max-width:800px;margin:0 auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:span 2}
+.form-label{font-family:var(--font);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red)}
+.form-input,.form-select,.form-textarea{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--white);font-family:var(--font-body);font-size:.9rem;padding:12px 16px;outline:none;transition:all .3s;width:100%;appearance:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--red);background:rgba(214,0,28,0.05);box-shadow:0 0 0 1px rgba(214,0,28,0.2)}
+.form-textarea{resize:vertical;min-height:100px}
+.form-select option{background:var(--dark);color:var(--white)}
+.upload-zone{border:1px dashed rgba(214,0,28,0.3);padding:1.5rem;text-align:center;cursor:pointer;transition:all .3s;background:rgba(214,0,28,0.03)}
+.upload-zone:hover{border-color:var(--red);background:rgba(214,0,28,0.06)}
+.upload-icon{font-size:1.5rem;color:var(--red);margin-bottom:.5rem}
+.upload-text{font-family:var(--font);font-size:11px;letter-spacing:1px;color:var(--gray);text-transform:uppercase}
+.form-submit{width:100%;margin-top:1.5rem;background:var(--red);color:var(--white);font-family:var(--font);font-weight:800;font-size:16px;letter-spacing:4px;text-transform:uppercase;padding:16px;border:none;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,100% calc(100% - 8px),calc(100% - 8px) 100%,0% 100%,0% 8px);transition:all .3s;position:relative;overflow:hidden}
+.form-submit:hover{background:#ff0022;transform:translateY(-2px);box-shadow:0 10px 40px rgba(214,0,28,0.4)}
+.form-submit::after{content:'→';margin-left:12px}
+
+/* ─── CONTACT ─── */
+#contact{background:var(--black)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact-info .contact-block{margin-bottom:2rem}
+.contact-block-label{font-family:var(--font);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:.75rem}
+.contact-block-value{font-family:var(--font);font-weight:600;font-size:1.2rem;color:var(--white)}
+.contact-block-value a{color:var(--white);text-decoration:none;transition:color .3s}
+.contact-block-value a:hover{color:var(--red)}
+.contact-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:2rem}
+.btn-contact{display:flex;align-items:center;gap:8px;font-family:var(--font);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;border:none;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-contact.whatsapp{background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);color:var(--white)}
+.btn-contact.phone{background:var(--red);color:var(--white)}
+.btn-contact:hover{transform:translateY(-2px)}
+.btn-contact.whatsapp:hover{border-color:var(--red);color:var(--red)}
+.map-embed{background:var(--dark);border:1px solid var(--border);height:300px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.map-placeholder{text-align:center}
+.map-pin{font-size:2rem;color:var(--red);display:block;margin-bottom:.5rem}
+.map-text{font-family:var(--font);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gray)}
+.map-link{display:inline-block;margin-top:1rem;font-family:var(--font);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);text-decoration:none;border:1px solid rgba(214,0,28,0.3);padding:8px 18px;transition:all .3s}
+.map-link:hover{background:var(--red);color:var(--white)}
+.social-links{display:flex;gap:.75rem;margin-top:2rem}
+.social-btn{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--gray);text-decoration:none;font-size:1rem;transition:all .3s}
+.social-btn:hover{border-color:var(--red);color:var(--red);background:rgba(214,0,28,0.08)}
+
+/* ─── FOOTER ─── */
+footer{background:#030303;border-top:1px solid var(--border);padding:3rem 4rem 1.5rem}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand .nav-logo{margin-bottom:1rem}
+.footer-desc{font-size:.85rem;color:var(--gray);line-height:1.7;max-width:280px}
+.footer-col-title{font-family:var(--font);font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--white);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid rgba(214,0,28,0.2)}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.footer-links a{font-size:.85rem;color:var(--gray);text-decoration:none;transition:color .3s;font-family:var(--font)}
+.footer-links a:hover{color:var(--red)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between}
+.footer-copy{font-size:.8rem;color:var(--gray);font-family:var(--font);letter-spacing:1px}
+.footer-copy span{color:var(--red)}
+.footer-autel{font-family:var(--font);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.2)}
+.red-rule{width:100%;height:1px;background:linear-gradient(90deg,var(--red),transparent);margin-bottom:1.5rem}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal{opacity:0;transform:translateY(40px);transition:all .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1200px){
+  .hero-hud{display:none}
+  .travaux-grid{grid-template-columns:repeat(2,1fr)}
+  .travail-item:first-child,.travail-item:nth-child(4){grid-column:span 1}
+  .galerie-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto}
+  .galerie-item:nth-child(1){grid-column:span 2;grid-row:span 1}
+  .galerie-item:nth-child(5){grid-column:span 2}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  section{padding:4rem 1.5rem}
+  .hero-content{padding:0 1.5rem}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:span 1}
+  .contact-grid{grid-template-columns:1fr}
+  .temoignages-grid{grid-template-columns:1fr}
+  .travaux-grid{grid-template-columns:1fr}
+  .galerie-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .galerie-item:nth-child(1){grid-column:span 2}
+  .footer-top{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:.75rem;text-align:center}
+}
+</style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div id="notification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-500 max-w-sm w-full bg-[#111111] border-l-4 border-[#D6001C] p-4 rounded shadow-2xl font-mono text-xs hidden">
-        <div class="flex items-start gap-3">
-            <i data-lucide="check-circle" class="text-emerald-400 w-5 h-5 shrink-0"></i>
-            <div>
-                <h5 class="text-white font-bold uppercase tracking-wider" id="notif-title">Système mis à jour</h5>
-                <p class="text-zinc-400 mt-1" id="notif-desc">Données transmises avec succès.</p>
-            </div>
-        </div>
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">AO</div>
+    <div class="nav-logo-text">ATELIER <span>OLOUWABE</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#travaux">Travaux</a></li>
+    <li><a href="#produits">Produits</a></li>
+    <li><a href="#diagnostic">Diagnostic</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#rdv" class="nav-cta">Rendez-vous</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-fallback"></div>
+    <!-- Cinematic automotive video would go here -->
+    <!-- <video autoplay muted loop playsinline>
+      <source src="hero-automotive.mp4" type="video/mp4">
+    </video> -->
+  </div>
+  <div class="hero-scanlines"></div>
+  <div class="hero-overlay"></div>
+  <!-- animated red particles -->
+  <canvas id="heroCanvas" style="position:absolute;inset:0;z-index:3;pointer-events:none"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span></span>
+      Diagnostic Nouvelle Génération — AUTEL Certified
     </div>
+    <h1 class="hero-title">
+      Diagnostic<br>
+      Automobile<br>
+      <span>Intelligent</span>
+    </h1>
+    <p class="hero-subtitle">Diagnostic Mercedes-Benz, Analyse ECU, Test Batterie et Réparation Électronique Professionnelle.</p>
+    <div class="hero-buttons">
+      <a href="#travaux" class="btn-primary">Voir les Travaux</a>
+      <a href="#produits" class="btn-outline">Voir les Produits</a>
+      <a href="#rdv" class="btn-outline">Prendre Rendez-vous</a>
+    </div>
+  </div>
+  <div class="hero-hud">
+    <div class="hud-card">
+      <div class="scan-line"></div>
+      <div class="hud-label">Système Actif</div>
+      <div class="hud-value">AUTEL AI</div>
+      <div class="hud-sub">Ultra-Intelligent ECU</div>
+    </div>
+    <div class="hud-card">
+      <div class="hud-label">Diagnostics / Mois</div>
+      <div class="hud-value">340+</div>
+      <div class="hud-sub">Véhicules traités</div>
+    </div>
+    <div class="hud-card">
+      <div class="hud-label">Taux de Réussite</div>
+      <div class="hud-value">99.2%</div>
+      <div class="hud-sub">Satisfaction client</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Défiler
+  </div>
+</section>
 
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#050505]/90 border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-[#D6001C] flex items-center justify-center rounded-sm">
-                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
-                </div>
-                <div>
-                    <span class="text-sm font-black tracking-[0.25em] text-white">AUTEL <span class="font-light text-zinc-400">CORE</span></span>
-                    <span class="text-[9px] text-zinc-500 font-mono tracking-widest block">OLOUWABE LABS</span>
-                </div>
-            </div>
-            
-            <nav class="hidden lg:flex items-center gap-8 text-[11px] font-medium tracking-wider uppercase text-zinc-400">
-                <a href="#hero" class="hover:text-white transition-colors">Accueil</a>
-                <a href="#services" class="hover:text-white transition-colors">Services</a>
-                <a href="#works" class="hover:text-[#D6001C] transition-colors">Dossiers</a>
-                <a href="#products" class="hover:text-white transition-colors">Produits</a>
-                <a href="#telemetry" class="hover:text-white transition-colors">Télémétrie</a>
-                <a href="#appointment" class="hover:text-white transition-colors">Rendez-vous</a>
-            </nav>
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header reveal">
+    <div class="section-tag">Ce que nous faisons</div>
+    <h2 class="section-title">Services <span>Premium</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-number">01</div>
+      <div class="service-icon">🔬</div>
+      <div class="service-name">Diagnostic ECU</div>
+      <div class="service-desc">Analyse complète de l'unité de contrôle moteur. Lecture et effacement des codes défauts DTC.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">02</div>
+      <div class="service-icon">⚡</div>
+      <div class="service-name">Test Batterie</div>
+      <div class="service-desc">Analyse complète de l'état de la batterie 12V et haute tension. Rapport détaillé fourni.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">03</div>
+      <div class="service-icon">📡</div>
+      <div class="service-name">Calibration ADAS</div>
+      <div class="service-desc">Calibration des systèmes d'aide à la conduite : caméras, radars, capteurs de stationnement.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">04</div>
+      <div class="service-icon">🔑</div>
+      <div class="service-name">Prog. Calculateurs</div>
+      <div class="service-desc">Programmation et reprogrammation des calculateurs électroniques de toutes marques.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">05</div>
+      <div class="service-icon">🛞</div>
+      <div class="service-name">TPMS / Pression</div>
+      <div class="service-desc">Diagnostic, programmation et remplacement des capteurs de pression des pneumatiques.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">06</div>
+      <div class="service-icon">🔧</div>
+      <div class="service-name">Réparation Électro.</div>
+      <div class="service-desc">Réparation des systèmes électroniques, câblages et composants électriques automobiles.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">07</div>
+      <div class="service-icon">📊</div>
+      <div class="service-name">Rapport Diagnostic</div>
+      <div class="service-desc">Génération de rapports PDF professionnels détaillés avec analyse complète du véhicule.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">08</div>
+      <div class="service-icon">🚗</div>
+      <div class="service-name">Mercedes-Benz</div>
+      <div class="service-desc">Spécialiste Mercedes-Benz : diagnostic de tous les systèmes Classe C, E, S, AMG, GLE.</div>
+    </div>
+  </div>
+</section>
 
-            <div class="flex items-center gap-4">
-                <a href="tel:0191225380" class="font-mono text-xs text-zinc-300 font-bold hover:text-[#D6001C]">0191225380</a>
-                <a href="#appointment" class="px-5 py-2.5 bg-[#D6001C] hover:bg-[#b50017] text-white text-[11px] font-bold uppercase tracking-wider rounded-sm transition-all">
-                    DIAGNOSTIC INTAKE
-                </a>
-            </div>
+<!-- TRAVAUX -->
+<section id="travaux">
+  <div class="section-header reveal">
+    <div class="section-tag">Réalisations</div>
+    <h2 class="section-title">Travaux <span>Effectués</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="travaux-grid">
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background:linear-gradient(135deg,#1a0505,#2a0808);background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Diagnostic Mercedes Classe E</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Analyse ECU Avancée</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Test Batterie Haute Tension</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1600705722908-bcd5d11ed434?w=800&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Programmation Calculateur</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Calibration ADAS</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Diagnostic Système Électrique</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Réparation Électronique</div>
+      </div>
+    </div>
+    <div class="travail-item reveal">
+      <div class="travail-img" style="background-image:url('https://images.unsplash.com/photo-1626668893632-6f3a4466d22f?w=600&q=80');background-size:cover"></div>
+      <div class="travail-overlay"></div>
+      <div class="travail-info">
+        <span class="travail-badge">Terminé ✓</span>
+        <div class="travail-title">Diagnostic Moteur Complet</div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <span class="stat-num" data-target="1200">0</span>
+      <div class="stat-label">Véhicules Diagnostiqués</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="99">0</span>
+      <div class="stat-label">% Satisfaction Client</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="5">0</span>
+      <div class="stat-label">Années d'Expérience</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="340">0</span>
+      <div class="stat-label">Diagnostics / Mois</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUITS -->
+<section id="produits">
+  <div class="section-header reveal">
+    <div class="section-tag">Équipements</div>
+    <h2 class="section-title">Nos <span>Produits</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="produits-filter reveal">
+    <button class="filter-btn active">Tous</button>
+    <button class="filter-btn">Scanners</button>
+    <button class="filter-btn">Batterie</button>
+    <button class="filter-btn">ADAS</button>
+    <button class="filter-btn">ECU</button>
+    <button class="filter-btn">TPMS</button>
+  </div>
+  <div class="produits-grid" id="produitsGrid">
+    <!-- Generated by JS -->
+  </div>
+</section>
+
+<!-- DIAGNOSTIC DASHBOARD -->
+<section id="diagnostic">
+  <div class="section-header reveal">
+    <div class="section-tag">Interface IA</div>
+    <h2 class="section-title">Rapport <span>Diagnostic</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="diag-container reveal">
+    <div class="diag-terminal">
+      <div class="diag-topbar">
+        <div class="diag-dots">
+          <div class="diag-dot red"></div>
+          <div class="diag-dot yellow"></div>
+          <div class="diag-dot green"></div>
         </div>
-    </header>
-
-    <section id="hero" class="relative h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden z-10 border-b border-white/5">
-        <div class="absolute inset-0 z-0 bg-black">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-25 filter grayscale contrast-125">
-                <source src="https://assets.mixkit.co/videos/download/mixkit-black-luxury-car-cruising-slowly-at-night-42416-medium.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]"></div>
+        <div class="diag-title-bar">AUTEL AI DIAGNOSTIC — v4.2.1</div>
+        <div class="diag-status">● SCANNING</div>
+      </div>
+      <div class="diag-body">
+        <div>
+          <div class="diag-field">
+            <div class="diag-label">Numéro VIN</div>
+            <code class="diag-value">WDD2050221A385024</code>
+          </div>
+          <div class="diag-field">
+            <div class="diag-label">Marque / Modèle</div>
+            <code class="diag-value">MERCEDES-BENZ E220d AMG Line</code>
+          </div>
+          <div class="diag-field">
+            <div class="diag-label">Kilométrage</div>
+            <code class="diag-value">87 432 km</code>
+          </div>
+          <div class="diag-field">
+            <div class="diag-label">Système Scanné</div>
+            <code class="diag-value">ECU / ABS / ESP / EGS / EIS / SCN</code>
+          </div>
+          <div class="diag-dtc">
+            <div style="font-family:var(--font);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:.75rem">Codes DTC Détectés</div>
+            <div class="dtc-row">
+              <span class="dtc-code">P0300</span>
+              <span style="color:#ccc;font-family:var(--font);font-size:.85rem">Ratés d'allumage multiples</span>
+              <span class="dtc-severity critical">CRITIQUE</span>
+            </div>
+            <div class="dtc-row">
+              <span class="dtc-code">C1235</span>
+              <span style="color:#ccc;font-family:var(--font);font-size:.85rem">Capteur ABS arrière gauche</span>
+              <span class="dtc-severity warning">ATTENTION</span>
+            </div>
+            <div class="dtc-row">
+              <span class="dtc-code">B1047</span>
+              <span style="color:#ccc;font-family:var(--font);font-size:.85rem">Module airbag passager</span>
+              <span class="dtc-severity warning">ATTENTION</span>
+            </div>
+          </div>
         </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#111111] border border-white/10 rounded-sm text-[10px] font-mono text-zinc-400">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#D6001C] animate-pulse"></span>
-                    AUTEL ENGINE PLATFORM // CORE V3 ACTIVATED
-                </div>
-                <h1 class="text-4xl sm:text-6xl font-black tracking-tight uppercase leading-[0.95]">
-                    Diagnostic Automobile <br/>
-                    <span class="text-[#D6001C]">Intelligent</span> <br/>
-                    Nouvelle Génération
-                </h1>
-                <p class="text-zinc-400 max-w-xl mx-auto lg:mx-0 text-sm font-light">
-                    Diagnostic Mercedes-Benz, Analyse ECU, Test Batterie et Réparation Électronique Professionnelle de pointe.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                    <a href="#works" class="w-full sm:w-auto px-7 py-4 bg-white text-black font-bold uppercase text-[11px] tracking-wider rounded-sm hover:bg-zinc-200 text-center transition-all">Voir les Travaux</a>
-                    <a href="#products" class="w-full sm:w-auto px-7 py-4 bg-[#111111] border border-white/10 text-white font-bold uppercase text-[11px] tracking-wider rounded-sm hover:bg-zinc-900 text-center transition-all">Voir les Produits</a>
-                    <a href="#appointment" class="w-full sm:w-auto px-7 py-4 bg-[#D6001C] text-white font-bold uppercase text-[11px] tracking-wider rounded-sm hover:bg-[#b50017] text-center transition-all">Prendre Rendez-vous</a>
-                </div>
-            </div>
-
-            <div class="lg:col-span-5 hidden lg:block">
-                <div class="autel-glass p-6 rounded-lg border border-white/10 space-y-4 font-mono text-xs relative overflow-hidden">
-                    <div class="absolute left-0 right-0 h-[2px] bg-[#D6001C] shadow-[0_0_15px_#D6001C] scan-line"></div>
-                    <div class="flex items-center justify-between text-[10px] text-zinc-500 border-b border-white/5 pb-3">
-                        <span>SYSTEM SCAN STATUS</span>
-                        <span class="text-[#D6001C] animate-pulse">LIVE NODE</span>
-                    </div>
-                    <div class="space-y-2 text-zinc-400">
-                        <div class="flex justify-between"><span>VEHICLE:</span><span class="text-white">Mercedes-Benz AMG</span></div>
-                        <div class="flex justify-between"><span>VIN LOG:</span><span class="text-white font-bold">WDD2906891AXXXXXX</span></div>
-                        <div class="flex justify-between"><span>ECU STABILITY:</span><span class="text-emerald-400">100% SECURE</span></div>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <div class="diag-bar-wrap">
+            <div class="diag-bar-label"><span>État Batterie</span><span>82%</span></div>
+            <div class="diag-bar-track"><div class="diag-bar-fill" style="width:82%"></div></div>
+          </div>
+          <div class="diag-bar-wrap">
+            <div class="diag-bar-label"><span>Santé Moteur</span><span>74%</span></div>
+            <div class="diag-bar-track"><div class="diag-bar-fill" style="width:74%"></div></div>
+          </div>
+          <div class="diag-bar-wrap">
+            <div class="diag-bar-label"><span>Système Électrique</span><span>91%</span></div>
+            <div class="diag-bar-track"><div class="diag-bar-fill" style="width:91%"></div></div>
+          </div>
+          <div class="diag-bar-wrap">
+            <div class="diag-bar-label"><span>Transmission</span><span>88%</span></div>
+            <div class="diag-bar-track"><div class="diag-bar-fill" style="width:88%"></div></div>
+          </div>
+          <div class="diag-bar-wrap">
+            <div class="diag-bar-label"><span>Système ADAS</span><span>67%</span></div>
+            <div class="diag-bar-track"><div class="diag-bar-fill" style="width:67%"></div></div>
+          </div>
+          <div class="scan-progress">
+            <div class="scan-label"><span>Analyse en cours...</span><span style="color:var(--red)">78%</span></div>
+            <div class="scan-track"><div class="scan-fill"></div></div>
+          </div>
+          <button class="diag-btn">Télécharger Rapport PDF</button>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="services" class="py-24 bg-[#111111] border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 space-y-2">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Core Capabilities</span>
-                <h2 class="text-3xl font-black uppercase">Services Technologiques Spécifiques</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="p-6 bg-[#050505] border border-white/5 rounded hover:border-[#D6001C]/40 transition-all">
-                    <i data-lucide="activity" class="w-7 h-7 text-[#D6001C] mb-4"></i>
-                    <h3 class="text-sm font-bold uppercase mb-2">Analyse Systèmes OBD</h3>
-                    <p class="text-zinc-500 text-xs font-light">Interrogation en temps réel des calculateurs et bus multiplexés.</p>
-                </div>
-                <div class="p-6 bg-[#050505] border border-white/5 rounded hover:border-[#D6001C]/40 transition-all">
-                    <i data-lucide="layers" class="w-7 h-7 text-[#D6001C] mb-4"></i>
-                    <h3 class="text-sm font-bold uppercase mb-2">Codage En Ligne ECU</h3>
-                    <p class="text-zinc-500 text-xs font-light">Mise à jour de micrologiciels sur les serveurs constructeurs officiels.</p>
-                </div>
-                <div class="p-6 bg-[#050505] border border-white/5 rounded hover:border-[#D6001C]/40 transition-all">
-                    <i data-lucide="zap" class="w-7 h-7 text-[#D6001C] mb-4"></i>
-                    <h3 class="text-sm font-bold uppercase mb-2">Diagnostic SOH Batterie</h3>
-                    <p class="text-zinc-500 text-xs font-light">Analyse fine de la capacité de stockage et état de santé des cellules.</p>
-                </div>
-                <div class="p-6 bg-[#050505] border border-white/5 rounded hover:border-[#D6001C]/40 transition-all">
-                    <i data-lucide="shield-check" class="w-7 h-7 text-[#D6001C] mb-4"></i>
-                    <h3 class="text-sm font-bold uppercase mb-2">Alignement ADAS</h3>
-                    <p class="text-zinc-500 text-xs font-light">Calibration géométrique laser des capteurs et caméras radar.</p>
-                </div>
-            </div>
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="section-header reveal">
+    <div class="section-tag">Portfolio</div>
+    <h2 class="section-title">Notre <span>Galerie</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="galerie-grid reveal">
+    <div class="galerie-item">
+      <div class="galerie-img" style="background-image:url('https://images.unsplash.com/photo-1550355291-bbee04a92027?w=800&q=80');height:100%"></div>
+      <div class="galerie-overlay"></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-img" style="background-image:url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80');height:200px"></div>
+      <div class="galerie-overlay"></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-img" style="background-image:url('https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80');height:200px"></div>
+      <div class="galerie-overlay"></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-img" style="background-image:url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&q=80');height:200px"></div>
+      <div class="galerie-overlay"></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-img" style="background-image:url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80');height:200px"></div>
+      <div class="galerie-overlay"></div>
+    </div>
+    <div class="galerie-item">
+      <div class="galerie-img" style="background-image:url('https://images.unsplash.com/photo-1562141961-b8f2f20200d8?w=600&q=80');height:200px"></div>
+      <div class="galerie-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMOIGNAGES -->
+<section id="temoignages">
+  <div class="section-header reveal">
+    <div class="section-tag">Avis Clients</div>
+    <h2 class="section-title">Ils nous font <span>Confiance</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="temoignages-grid">
+    <div class="temoignage-card reveal">
+      <div class="quote-icon">"</div>
+      <div class="temoignage-text">Service exceptionnel. Le diagnostic de ma Mercedes Classe E a été ultra précis. Le rapport PDF fourni est très professionnel et détaillé. Je recommande vivement.</div>
+      <div class="stars">★★★★★</div>
+      <div class="temoignage-author">
+        <div class="author-avatar">KA</div>
+        <div>
+          <div class="author-name">Kofi Asante</div>
+          <div class="author-vehicle">Mercedes-Benz E220d</div>
         </div>
-    </section>
-
-    <section id="works" class="py-24 bg-[#050505] border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Verified Logs</span>
-                <h2 class="text-3xl font-black uppercase">Dossiers d'Interventions Récentes</h2>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 font-mono text-xs">
-                <script>
-                    const works = [
-                        { title: "Diagnostic Mercedes-Benz V-Class", desc: "Restauration passerelle centrale CGW", param: "100% SUCCESS" },
-                        { title: "Analyse ECU Bosch MED17", desc: "Recodage des tables d'injection de carburant", param: "ALIGN OK" },
-                        { title: "Réparation Électronique SAM", desc: "Changement de MOSFET sur carte d'habitacle", param: "4.2 mΩ NOMINAL" },
-                        { title: "Test Pack Batterie Li-Ion", desc: "Analyse d'impédance de cellules de puissance", param: "SOH 94%" },
-                        { title: "Codage Synchrone Boîte ISM", desc: "Appairage du servomoteur de sélection de rapport", param: "VMAX CONFIRMED" },
-                        { title: "Diagnostic Moteur OM654", desc: "Résolution chute de pression rampe commune", param: "1600 BAR" },
-                        { title: "Isolation Court-Circuit LIN", desc: "Cartographie de ligne d'arbre à bus multiplexé", param: "0.02A SLEEP" },
-                        { title: "Calibration Dynamique Lidar", desc: "Réalignement cible laser freinage autonome", param: "0.0° OFFSET" }
-                    ];
-                    document.write(works.map(w => `
-                        <div class="p-5 bg-[#111111] border border-white/5 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between text-[10px] text-zinc-500">
-                                    <span>REGISTRY OK</span>
-                                    <span class="text-[#D6001C] font-bold">VÉRIFIÉ</span>
-                                </div>
-                                <h4 class="text-white font-sans font-bold text-sm line-clamp-1">${w.title}</h4>
-                                <p class="text-zinc-400 font-sans font-light text-[11px] leading-snug">${w.desc}</p>
-                            </div>
-                            <div class="mt-4 pt-3 border-t border-white/5 flex justify-between text-[10px] text-zinc-500">
-                                <span>MÉTRIQUE:</span>
-                                <span class="text-emerald-400 font-bold">${w.param}</span>
-                            </div>
-                        </div>
-                    `).join(''));
-                </script>
-            </div>
+      </div>
+    </div>
+    <div class="temoignage-card reveal">
+      <div class="quote-icon">"</div>
+      <div class="temoignage-text">Atelier très professionnel et équipé. L'équipe a détecté en 30 minutes un problème électronique que deux autres garages n'avaient pas trouvé. Impressionnant.</div>
+      <div class="stars">★★★★★</div>
+      <div class="temoignage-author">
+        <div class="author-avatar">AD</div>
+        <div>
+          <div class="author-name">Amara Diallo</div>
+          <div class="author-vehicle">BMW Série 5</div>
         </div>
-    </section>
-
-    <section id="products" class="py-24 bg-[#111111] border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Hardware Catalog</span>
-                <h2 class="text-3xl font-black uppercase">Systèmes De Diagnostic Autel Officiels</h2>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 font-mono text-xs">
-                <script>
-                    const productsList = [
-                        { name: "MaxiSYS Ultra", cat: "Scanners", d: "Tablette topologie réseau avancée" },
-                        { name: "MaxiSYS MS919", cat: "Scanners", d: "Interface VCMI 5-en-1 intégrée" },
-                        { name: "MaxiSYS MS909", cat: "Scanners", d: "Guidage d'analyse DTC structurelle" },
-                        { name: "MaxiDAS DS900", cat: "Diagnostic", d: "Solution complète de niveau atelier" },
-                        { name: "MaxiBAS BT608", cat: "Testeurs Batterie", d: "Analyseur électrique avec imprimante" },
-                        { name: "MaxiBAS BT506", cat: "Testeurs Batterie", d: "Outil de test de charge alternateur" },
-                        { name: "MaxiTPMS ITS600", cat: "Outils TPMS", d: "Statut d'activation capteurs pression" },
-                        { name: "MaxiTPMS TS508", cat: "Outils TPMS", d: "Diagnostic TPMS complet rapide" },
-                        { name: "MaxiFlash J2534", cat: "Outils ECU", d: "Interface de programmation Pass-Thru" },
-                        { name: "Autel ADAS MA600", cat: "Outils ADAS", d: "Structure d'étalonnage portable" },
-                        { name: "MaxiSYS MS906 Pro", cat: "Tablettes", d: "Diagnostic bidirectionnel avancé" },
-                        { name: "Autel CAN FD Adapter", cat: "Câbles Auto", d: "Traitement réseau haute vitesse" },
-                        { name: "MaxiIM IM608 II", cat: "Programmateurs Clés", d: "Appairage antidémarrage d'élite" },
-                        { name: "MaxiIM IM508S", cat: "Programmateurs Clés", d: "Solution programmation transpondeurs" },
-                        { name: "Autel ADAS IA800", cat: "Outils Calibration", d: "Positionnement optique 3D intelligent" },
-                        { name: "MaxiVideo MV108S", cat: "Électronique Auto", d: "Vidéoscope d'inspection numérique HD" },
-                        { name: "MaxiCheck MX900", cat: "Électronique Auto", d: "Réinitialisation service tous systèmes" },
-                        { name: "BMW Ethernet Cable", cat: "Câbles Auto", d: "Câble de codage ENET haute qualité" },
-                        { name: "MaxiAP AP200", cat: "Diagnostic", d: "Interface sans fil Bluetooth compacte" },
-                        { name: "MaxiSYS MS906S", cat: "Scanners", d: "Analyse complète systèmes embarqués" }
-                    ];
-
-                    document.write(productsList.map(p => `
-                        <div class="bg-[#050505] border border-white/5 p-4 rounded flex flex-col justify-between hover:border-[#D6001C]/50 transition-all group">
-                            <div>
-                                <span class="text-[9px] text-[#D6001C] font-bold uppercase tracking-wider block mb-1">${p.cat}</span>
-                                <h4 class="text-white font-sans font-bold text-sm mb-1 group-hover:text-[#D6001C] transition-colors">${p.name}</h4>
-                                <p class="text-zinc-500 font-sans font-light text-[11px] leading-tight line-clamp-2">${p.d}</p>
-                            </div>
-                            <button class="mt-4 w-full py-2 bg-[#111111] border border-white/5 text-zinc-300 text-[10px] font-bold uppercase rounded hover:bg-[#D6001C] hover:text-white hover:border-[#D6001C] transition-all">Configurer Node</button>
-                        </div>
-                    `).join(''));
-                </script>
-            </div>
+      </div>
+    </div>
+    <div class="temoignage-card reveal">
+      <div class="quote-icon">"</div>
+      <div class="temoignage-text">Calibration ADAS parfaitement réalisée. Les capteurs de ma voiture fonctionnent à nouveau comme neufs. Le technicien a tout expliqué avec pédagogie. Merci !</div>
+      <div class="stars">★★★★★</div>
+      <div class="temoignage-author">
+        <div class="author-avatar">SH</div>
+        <div>
+          <div class="author-name">Sylvie Houessou</div>
+          <div class="author-vehicle">Volkswagen Touareg</div>
         </div>
-    </section>
-
-    <section id="telemetry" class="py-24 bg-[#050505] border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Live Data Feed</span>
-                <h2 class="text-3xl font-black uppercase">Dashboard Diagnostique & Télémétrie</h2>
-            </div>
-
-            <div class="bg-[#111111] border border-white/10 rounded overflow-hidden shadow-2xl">
-                <div class="bg-[#050505] px-6 py-4 border-b border-white/5 flex items-center justify-between font-mono text-xs text-zinc-500">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#D6001C] animate-pulse"></span>
-                        <span class="text-white font-bold tracking-wide">AUTEL CORE CORE_STREAM_DTC</span>
-                    </div>
-                    <span class="text-[10px] text-[#D6001C] bg-[#D6001C]/10 px-2 py-0.5 rounded border border-[#D6001C]/20">MÉMOIRE LIVE</span>
-                </div>
-
-                <div class="p-6 sm:p-10 space-y-6">
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs">
-                        <div class="bg-[#050505] p-4 border border-white/5 rounded">
-                            <span class="text-zinc-500 block text-[9px] mb-1 uppercase">VIN DU VÉHICLE</span>
-                            <span class="text-white font-bold">W1K2050421FXXXXXX</span>
-                        </div>
-                        <div class="bg-[#050505] p-4 border border-white/5 rounded">
-                            <span class="text-zinc-500 block text-[9px] mb-1 uppercase">KILOMÉTRAGE LOG</span>
-                            <span class="text-white font-bold">89,420 KM</span>
-                        </div>
-                        <div class="bg-[#050505] p-4 border border-white/5 rounded">
-                            <span class="text-zinc-500 block text-[9px] mb-1 uppercase">CODE DTC RENCONTRÉ</span>
-                            <span class="text-[#D6001C] font-bold">P029900 // CRITIQUE</span>
-                        </div>
-                        <div class="bg-[#050505] p-4 border border-white/5 rounded">
-                            <span class="text-zinc-500 block text-[9px] mb-1 uppercase">TENSION RELEVÉE</span>
-                            <span id="live-voltage" class="text-emerald-400 font-bold">13.8V</span>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2 font-mono text-xs">
-                        <span class="text-[10px] text-zinc-500 uppercase font-bold block">Flux dynamique des pressions de rampe (Oscilloscope)</span>
-                        <div id="chart-container" class="h-40 bg-[#050505] rounded border border-white/5 p-4 flex items-end justify-between gap-1 relative">
-                            </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="triggerPDFExport()" class="w-full sm:w-auto px-6 py-3.5 bg-[#D6001C] text-white text-xs font-mono font-bold uppercase rounded hover:bg-[#b50017] transition-all flex items-center justify-center gap-2">
-                            <i data-lucide="file-text" class="w-4 h-4"></i> EXPORTER LE RAPPORT SÉCURISÉ EN PDF
-                        </button>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="temoignage-card reveal">
+      <div class="quote-icon">"</div>
+      <div class="temoignage-text">Le meilleur atelier de diagnostic électronique de la région. Honnête, rapide et professionnel. Le prix est juste pour la qualité du service rendu.</div>
+      <div class="stars">★★★★★</div>
+      <div class="temoignage-author">
+        <div class="author-avatar">MB</div>
+        <div>
+          <div class="author-name">Moussa Bah</div>
+          <div class="author-vehicle">Audi A6</div>
         </div>
-    </section>
-
-    <section class="py-24 bg-[#111111] border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Cinematic Operations</span>
-                <h2 class="text-3xl font-black uppercase">Flux Vidéos Atelier Haute Performance</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-[#050505] rounded border border-white/5 overflow-hidden h-48 relative group cursor-pointer">
-                    <video loop muted playsinline class="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" onmouseover="this.play()" onmouseout="this.pause()">
-                        <source src="https://assets.mixkit.co/videos/download/mixkit-car-diagnostic-test-with-a-tablet-43485-medium.mp4" type="video/mp4">
-                    </video>
-                    <div class="absolute bottom-4 left-4 font-mono text-xs">
-                        <span class="text-[9px] text-[#D6001C] block uppercase font-bold">SCAN COMPLETE</span>
-                        <span class="text-white font-sans font-bold">Interrogation des calculateurs</span>
-                    </div>
-                </div>
-                <div class="bg-[#050505] rounded border border-white/5 overflow-hidden h-48 relative group cursor-pointer">
-                    <video loop muted playsinline class="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" onmouseover="this.play()" onmouseout="this.pause()">
-                        <source src="https://assets.mixkit.co/videos/download/mixkit-mechanic-working-under-a-car-43486-medium.mp4" type="video/mp4">
-                    </video>
-                    <div class="absolute bottom-4 left-4 font-mono text-xs">
-                        <span class="text-[9px] text-[#D6001C] block uppercase font-bold">CALIBRATION HARDWARE</span>
-                        <span class="text-white font-sans font-bold">Ajustement structurel géométrie</span>
-                    </div>
-                </div>
-                <div class="bg-[#050505] rounded border border-white/5 overflow-hidden h-48 relative group cursor-pointer">
-                    <video loop muted playsinline class="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-opacity" onmouseover="this.play()" onmouseout="this.pause()">
-                        <source src="https://assets.mixkit.co/videos/download/mixkit-futuristic-dashboard-of-an-electric-car-42415-medium.mp4" type="video/mp4">
-                    </video>
-                    <div class="absolute bottom-4 left-4 font-mono text-xs">
-                        <span class="text-[9px] text-[#D6001C] block uppercase font-bold">TELEMETRY STREAM</span>
-                        <span class="text-white font-sans font-bold">Vérification de l'habitacle digital</span>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="temoignage-card reveal">
+      <div class="quote-icon">"</div>
+      <div class="temoignage-text">J'ai fait programmer mon calculateur ici. Travail impeccable, délai respecté. L'atelier est propre, moderne et le matériel AUTEL utilisé est vraiment top.</div>
+      <div class="stars">★★★★★</div>
+      <div class="temoignage-author">
+        <div class="author-avatar">FK</div>
+        <div>
+          <div class="author-name">Fatima Kone</div>
+          <div class="author-vehicle">Toyota Land Cruiser</div>
         </div>
-    </section>
-
-    <section class="py-24 bg-[#050505] border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Feedback Logs</span>
-                <h2 class="text-3xl font-black uppercase">Rapports d'Expériences Clients</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-                <div class="p-6 bg-[#111111] border border-white/5 rounded space-y-4">
-                    <p class="text-zinc-400 font-sans font-light text-sm leading-relaxed">"Le diagnostic en ligne a instantanément repéré le problème d'injection sur ma Mercedes. Service remarquable."</p>
-                    <span class="text-white block font-bold">— Marc-Antoine K.</span>
-                </div>
-                <div class="p-6 bg-[#111111] border border-white/5 rounded space-y-4">
-                    <p class="text-zinc-400 font-sans font-light text-sm leading-relaxed">"Outil technique et rapports PDF clairs et précis de niveau constructeur."</p>
-                    <span class="text-white block font-bold">— Dr. Sylvain O.</span>
-                </div>
-                <div class="p-6 bg-[#111111] border border-white/5 rounded space-y-4">
-                    <p class="text-zinc-400 font-sans font-light text-sm leading-relaxed">"Prise en charge logicielle directe pour ma flotte, gain de temps exceptionnel."</p>
-                    <span class="text-white block font-bold">— Eléonore G.</span>
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="temoignage-card reveal">
+      <div class="quote-icon">"</div>
+      <div class="temoignage-text">Test batterie très complet avec rapport visuel. Ils ont identifié une cellule défaillante que le concessionnaire n'avait pas vue. Service de qualité internationale.</div>
+      <div class="stars">★★★★★</div>
+      <div class="temoignage-author">
+        <div class="author-avatar">GN</div>
+        <div>
+          <div class="author-name">Georges N'Dri</div>
+          <div class="author-vehicle">Mercedes-Benz GLE</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="appointment" class="py-24 bg-[#111111] border-b border-white/5">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span class="text-xs font-mono text-[#D6001C] uppercase tracking-widest block font-bold">Secure Intake</span>
-                <h2 class="text-3xl font-black uppercase">Planifier une Intervention Technique</h2>
-            </div>
+<!-- RDV -->
+<section id="rdv">
+  <div class="section-header reveal">
+    <div class="section-tag">Réservation</div>
+    <h2 class="section-title">Prendre <span>Rendez-vous</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="rdv-container reveal">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Nom Complet</label>
+        <input type="text" class="form-input" placeholder="Votre nom complet">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Téléphone</label>
+        <input type="tel" class="form-input" placeholder="+229 XX XX XX XX">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="votre@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Marque Véhicule</label>
+        <select class="form-select">
+          <option value="">Sélectionner la marque</option>
+          <option>Mercedes-Benz</option>
+          <option>BMW</option>
+          <option>Audi</option>
+          <option>Volkswagen</option>
+          <option>Toyota</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Modèle</label>
+        <input type="text" class="form-input" placeholder="Ex: Classe E, Série 5...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Année</label>
+        <input type="number" class="form-input" placeholder="Ex: 2021">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date Souhaitée</label>
+        <input type="date" class="form-input">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Description du Problème</label>
+        <textarea class="form-textarea" placeholder="Décrivez le problème ou le service souhaité..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Photo du Véhicule</label>
+        <div class="upload-zone" onclick="document.getElementById('imgUpload').click()">
+          <input type="file" id="imgUpload" style="display:none" accept="image/*">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Cliquez pour uploader</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rapport Existant (PDF)</label>
+        <div class="upload-zone" onclick="document.getElementById('pdfUpload').click()">
+          <input type="file" id="pdfUpload" style="display:none" accept=".pdf">
+          <div class="upload-icon">📄</div>
+          <div class="upload-text">Cliquez pour uploader</div>
+        </div>
+      </div>
+      <div class="form-group full">
+        <button class="form-submit" onclick="submitForm()">Confirmer le Rendez-vous</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="autel-glass p-6 sm:p-10 rounded shadow-2xl relative font-mono text-xs">
-                <div id="form-loader" class="absolute inset-0 bg-[#050505]/95 z-40 flex flex-col items-center justify-center text-center p-6 hidden">
-                    <div class="w-12 h-12 border-4 border-t-[#D6001C] border-white/10 rounded-full animate-spin mb-4"></div>
-                    <span class="text-sm font-bold tracking-wider uppercase text-white">Analyse algorithmique du dossier...</span>
-                    <span class="text-[10px] text-zinc-500 mt-1 uppercase">Vérification de la bande passante et des créneaux de diagnostic</span>
-                </div>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-tag">Nous trouver</div>
+    <h2 class="section-title">Nous <span>Contacter</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div style="font-family:var(--font);font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:2rem">ATELIER <span style="color:var(--red)">OLOUWABE</span></div>
+      <div class="contact-block">
+        <div class="contact-block-label">Téléphone</div>
+        <div class="contact-block-value"><a href="tel:0191225380">01 91 22 53 80</a></div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-label">Email</div>
+        <div class="contact-block-value"><a href="mailto:kponadouo@gmail.com">kponadouo@gmail.com</a></div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-label">Adresse</div>
+        <div class="contact-block-value">F87Q+JWJ Abomey-Calavi<br><span style="color:var(--gray);font-size:.9rem">Abomey-Calavi, Bénin</span></div>
+      </div>
+      <div class="contact-actions">
+        <a href="https://wa.me/0191225380" class="btn-contact whatsapp" target="_blank">
+          <span>💬</span> WhatsApp
+        </a>
+        <a href="tel:0191225380" class="btn-contact phone">
+          <span>📞</span> Appeler
+        </a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-btn" title="Facebook">f</a>
+        <a href="#" class="social-btn" title="Instagram">in</a>
+        <a href="#" class="social-btn" title="YouTube">▶</a>
+        <a href="#" class="social-btn" title="LinkedIn">Li</a>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="map-embed">
+        <div class="map-placeholder">
+          <span class="map-pin">📍</span>
+          <div class="map-text">F87Q+JWJ Abomey-Calavi, Bénin</div>
+          <a href="https://maps.google.com/?q=Abomey-Calavi,Benin" target="_blank" class="map-link">Ouvrir dans Google Maps →</a>
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding:1.5rem;background:var(--dark);border:1px solid var(--border)">
+        <div style="font-family:var(--font);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:.75rem">Horaires d'ouverture</div>
+        <div style="display:grid;gap:.4rem">
+          <div style="display:flex;justify-content:space-between;font-family:var(--font);font-size:.9rem">
+            <span style="color:var(--gray)">Lun – Ven</span><span>07h00 – 18h00</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--font);font-size:.9rem">
+            <span style="color:var(--gray)">Samedi</span><span>08h00 – 16h00</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--font);font-size:.9rem">
+            <span style="color:var(--gray)">Dimanche</span><span style="color:var(--red)">Sur RDV</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                <form id="appointmentForm" class="space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Identité Client</label>
-                            <input type="text" id="clientName" required class="w-full autel-glass-input rounded p-3 text-white outline-none" placeholder="Ex: Jean-Pierre">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Téléphone</label>
-                            <input type="tel" id="clientPhone" required class="w-full autel-glass-input rounded p-3 text-white outline-none" placeholder="0191225380">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Canal E-mail</label>
-                            <input type="email" id="clientEmail" required class="w-full autel-glass-input rounded p-3 text-white outline-none" placeholder="kponadouo@gmail.com">
-                        </div>
-                    </div>
+<!-- FOOTER -->
+<footer>
+  <div class="red-rule"></div>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:1rem">
+        <div class="nav-logo-icon">AO</div>
+        <div class="nav-logo-text">ATELIER <span>OLOUWABE</span></div>
+      </div>
+      <p class="footer-desc">Spécialiste du diagnostic automobile intelligent. Équipé des dernières technologies AUTEL pour une précision maximale.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">Diagnostic ECU</a></li>
+        <li><a href="#services">Test Batterie</a></li>
+        <li><a href="#services">Calibration ADAS</a></li>
+        <li><a href="#services">Prog. Calculateurs</a></li>
+        <li><a href="#services">TPMS</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Liens Rapides</div>
+      <ul class="footer-links">
+        <li><a href="#hero">Accueil</a></li>
+        <li><a href="#travaux">Travaux</a></li>
+        <li><a href="#produits">Produits</a></li>
+        <li><a href="#galerie">Galerie</a></li>
+        <li><a href="#rdv">Rendez-vous</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="tel:0191225380">01 91 22 53 80</a></li>
+        <li><a href="mailto:kponadouo@gmail.com">kponadouo@gmail.com</a></li>
+        <li><a href="#">Abomey-Calavi, Bénin</a></li>
+        <li><a href="https://wa.me/0191225380">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 <span>Atelier Olouwabe</span>. Tous droits réservés.</div>
+    <div class="footer-autel">Powered by AUTEL Technology</div>
+  </div>
+</footer>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Marque véhicule</label>
-                            <input type="text" id="carBrand" required class="w-full autel-glass-input rounded p-3 text-white outline-none" placeholder="Mercedes-Benz">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Modèle</label>
-                            <input type="text" id="carModel" required class="w-full autel-glass-input rounded p-3 text-white outline-none" placeholder="AMG GT">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Année</label>
-                            <input type="number" id="carYear" required class="w-full autel-glass-input rounded p-3 text-white outline-none" placeholder="2022">
-                        </div>
-                        <div class="space-y-1.5">
-                            <label class="text-zinc-500 uppercase text-[9px] font-bold">Date Intervention</label>
-                            <input type="date" id="carDate" required class="w-full autel-glass-input rounded p-3 text-white outline-none text-zinc-400">
-                        </div>
-                    </div>
+<script>
+// ─── PRODUCTS DATA ───
+const products = [
+  {name:"MaxiSys Ultra",cat:"Scanners",desc:"Scanner diagnostic premium avec écran 12.9\" et intelligence artificielle AUTEL.",price:"Contact"},
+  {name:"MaxiCOM MK908P",cat:"Scanners",desc:"Diagnostic OBD2 complet avec ECU coding et 36 services spéciaux.",price:"Contact"},
+  {name:"MaxiCheck MX808",cat:"Scanners",desc:"Outil diagnostic compact avec fonctions avancées toutes marques.",price:"Contact"},
+  {name:"MaxiBAS BT608",cat:"Batterie",desc:"Testeur batterie professionnel 12V avec analyse 100-2000 CCA.",price:"Contact"},
+  {name:"MaxiBAS BT506",cat:"Batterie",desc:"Testeur batterie et alternateur avec Bluetooth intégré.",price:"Contact"},
+  {name:"MaxiTPMS TS608",cat:"TPMS",desc:"Programmation TPMS universelle, lecture et diagnostic capteurs pression.",price:"Contact"},
+  {name:"MaxiTPMS PAD",cat:"TPMS",desc:"Programmeur TPMS universel avec MX-Sensor compatible.",price:"Contact"},
+  {name:"MaxiSys MS919",cat:"ECU",desc:"Système diagnostic avancé avec oscilloscope intégré 8 canaux.",price:"Contact"},
+  {name:"MaxiIM508S",cat:"ECU",desc:"Programmateur clés et immobiliseurs avec Advanced IMMO.",price:"Contact"},
+  {name:"MaxiCOM MK906 Pro",cat:"Scanners",desc:"Scanner professionnel avec tests actifs et codage ECU.",price:"Contact"},
+  {name:"MA600",cat:"ADAS",desc:"Système calibration ADAS avec cibles et cadre de calibration.",price:"Contact"},
+  {name:"ADAS IA900",cat:"ADAS",desc:"Plateforme de calibration ADAS intelligente assistée par IA.",price:"Contact"},
+  {name:"MaxiFlash JVCI",cat:"ECU",desc:"Interface J2534 pour reprogrammation constructeur.",price:"Contact"},
+  {name:"MaxiSys MS905",cat:"Scanners",desc:"Tablette diagnostic Android 10 avec Wi-Fi 5GHz.",price:"Contact"},
+  {name:"MaxiCheck MX900",cat:"Scanners",desc:"Lecteur codes erreurs OBD2 professionnel avec écran couleur.",price:"Contact"},
+  {name:"MaxiBAS BT708",cat:"Batterie",desc:"Testeur batterie commercial 12V/24V avec imprimante intégrée.",price:"Contact"},
+  {name:"MaxiPRO MP808TS",cat:"TPMS",desc:"Outil diagnostic 2-en-1 : OBD2 + TPMS complet.",price:"Contact"},
+  {name:"OBD2 Elite Cable",cat:"Accessoires",desc:"Câble OBD2 premium 16 broches pour tous véhicules.",price:"Contact"},
+  {name:"MaxiSys Ultra Lite",cat:"Scanners",desc:"Version compacte du MaxiSys Ultra pour usage terrain.",price:"Contact"},
+  {name:"MaxiIM700",cat:"ECU",desc:"Programmateur clés & calculateurs avec accès cloud AUTEL.",price:"Contact"},
+];
 
-                    <div class="space-y-1.5">
-                        <label class="text-zinc-500 uppercase text-[9px] font-bold">Description du Problème</label>
-                        <textarea id
+const icons = {Scanners:"📱",Batterie:"⚡",TPMS:"🛞",ECU:"💾",ADAS:"📡",Accessoires:"🔌"};
+const colors = ["#1a0a0a","#0d0d0d","#0a0a0a","#111","#0f0f0f"];
+
+function renderProducts(filter="Tous"){
+  const grid = document.getElementById("produitsGrid");
+  const filtered = filter==="Tous"?products:products.filter(p=>p.cat===filter);
+  grid.innerHTML = filtered.map((p,i)=>`
+    <div class="produit-card">
+      <div class="produit-img-wrap" style="background:${colors[i%colors.length]}">
+        <span style="font-size:4rem;filter:drop-shadow(0 0 20px var(--red-glow))">${icons[p.cat]||"🔧"}</span>
+        <div class="produit-category">${p.cat}</div>
+      </div>
+      <div class="produit-body">
+        <div class="produit-name">${p.name}</div>
+        <div class="produit-desc">${p.desc}</div>
+        <div class="produit-footer">
+          <span class="produit-price">Sur devis</span>
+          <button class="btn-sm">Voir →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderProducts();
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    renderProducts(this.textContent);
+  });
+});
+
+// ─── NAV SCROLL ───
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ─── SCROLL REVEAL ───
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ─── COUNTER ANIMATION ───
+function animateCounter(el, target){
+  let start=0;
+  const step=Math.ceil(target/60);
+  const timer=setInterval(()=>{
+    start+=step;
+    if(start>=target){start=target;clearInterval(timer);}
+    el.textContent=start.toLocaleString('fr-FR');
+  },30);
+}
+const counterObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      document.querySelectorAll('.stat-num').forEach(el=>{
+        animateCounter(el,parseInt(el.dataset.target));
+      });
+      counterObserver.disconnect();
+    }
+  });
+},{threshold:0.3});
+const statsBar=document.querySelector('.stats-bar');
+if(statsBar)counterObserver.observe(statsBar);
+
+// ─── HERO CANVAS PARTICLES ───
+const canvas=document.getElementById('heroCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+
+function resizeCanvas(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+
+for(let i=0;i<60;i++){
+  particles.push({
+    x:Math.random()*1000,y:Math.random()*800,
+    vx:(Math.random()-.5)*0.3,vy:(Math.random()-.5)*0.3,
+    r:Math.random()*1.5+.5,
+    opacity:Math.random()*.5+.1
+  });
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(214,0,28,${p.opacity})`;
+    ctx.fill();
+  });
+  // draw connections
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<150){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(214,0,28,${(1-dist/150)*0.12})`;
+        ctx.lineWidth=.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// ─── FORM SUBMIT ───
+function submitForm(){
+  const btn=document.querySelector('.form-submit');
+  btn.textContent='Envoi en cours...';
+  btn.style.background='#333';
+  setTimeout(()=>{
+    btn.textContent='✓ Rendez-vous Confirmé !';
+    btn.style.background='#1a5c1a';
+    setTimeout(()=>{
+      btn.textContent='Confirmer le Rendez-vous';
+      btn.style.background='';
+    },3000);
+  },1500);
+}
+</script>
+</body>
+</html>
